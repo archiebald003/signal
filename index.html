@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal — Noise In. Clarity Out.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0f0e0c;
+  --ink-soft: #3a3830;
+  --ink-muted: #6b6860;
+  --ink-ghost: #a8a59e;
+  --paper: #faf8f4;
+  --paper-warm: #f3f0e8;
+  --paper-rule: #e8e4da;
+  --signal: #1a3a2a;
+  --signal-mid: #2d6248;
+  --signal-bright: #3d8c64;
+  --signal-pale: #e8f2ec;
+  --amber: #c97c1a;
+  --amber-pale: #fdf3e3;
+  --red-deep: #8b2020;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 18px 0 14px;
+  text-align: center;
+  position: relative;
+}
+.masthead-rule {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.masthead-title {
+  font-family: var(--serif);
+  font-size: clamp(52px, 8vw, 88px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1;
+}
+.masthead-sub {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-top: 6px;
+}
+.masthead-date {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-ghost);
+  margin-top: 10px;
+  letter-spacing: 0.1em;
+}
+
+/* ── BANNER ── */
+.banner {
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+  padding: 10px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+.banner span { color: #a8d8b8; }
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── HERO EDITORIAL ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1px 320px;
+  gap: 0;
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--paper-rule);
+}
+.hero-divider { background: var(--paper-rule); }
+.hero-main { padding-right: 32px; }
+.hero-aside { padding-left: 32px; }
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--signal-mid);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kicker::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: var(--signal-mid);
+}
+
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--signal-mid);
+}
+
+.hero-deck {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  border-left: 3px solid var(--signal-bright);
+  padding-left: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-body {
+  font-size: 15px;
+  color: var(--ink-muted);
+  line-height: 1.7;
+}
+.hero-body p + p { margin-top: 12px; }
+
+/* Aside stats */
+.stat-block {
+  background: var(--paper-warm);
+  border: 1px solid var(--paper-rule);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.stat-number {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--signal);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+.stat-source {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-ghost);
+  margin-top: 8px;
+}
+
+.pull-quote {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--ink);
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--paper-rule);
+  padding: 12px 0;
+  line-height: 1.4;
+}
+
+/* ── SECTION DIVIDER ── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 0 20px;
+  border-bottom: 1px solid var(--paper-rule);
+  margin-bottom: 28px;
+}
+.section-head-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.section-head-line {
+  flex: 1;
+  height: 1px;
+  background: var(--paper-rule);
+}
+
+/* ── NOISE SELECTOR ── */
+.noise-intro {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  max-width: 580px;
+}
+.noise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.noise-card {
+  border: 1px solid var(--paper-rule);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.noise-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--paper-rule);
+  transition: background 0.15s;
+}
+.noise-card:hover {
+  border-color: var(--signal-bright);
+}
+.noise-card:hover::before { background: var(--signal-bright); }
+.noise-card.active {
+  border-color: var(--signal);
+  background: var(--signal-pale);
+}
+.noise-card.active::before { background: var(--signal); }
+.noise-card-icon {
+  font-size: 18px;
+  margin-bottom: 6px;
+  display: block;
+}
+.noise-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+.noise-card-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 3px;
+}
+.noise-card.active .noise-card-title { color: var(--signal); }
+
+/* ── QUESTION AREA ── */
+.question-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: block;
+  margin-bottom: 10px;
+}
+.question-field {
+  width: 100%;
+  border: 1px solid var(--paper-rule);
+  border-top: 3px solid var(--ink);
+  background: #fff;
+  padding: 16px;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.question-field::placeholder { color: var(--ink-ghost); font-style: italic; }
+.question-field:focus { border-top-color: var(--signal); }
+
+.question-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.example-pill {
+  font-size: 12px;
+  padding: 5px 12px;
+  border: 1px solid var(--paper-rule);
+  color: var(--ink-muted);
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.12s;
+  font-family: var(--sans);
+}
+.example-pill:hover {
+  border-color: var(--signal-mid);
+  color: var(--signal);
+}
+
+/* ── RUN BUTTON ── */
+.run-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+}
+.run-btn {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 16px 36px;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.run-btn:hover { background: var(--signal); }
+.run-btn:active { transform: scale(0.99); }
+.run-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.run-arrow { font-style: normal; font-size: 20px; }
+.run-hint {
+  font-size: 13px;
+  color: var(--ink-ghost);
+  font-style: italic;
+}
+
+/* ── PIPELINE TICKER ── */
+.pipeline-ticker {
+  background: var(--paper-warm);
+  border: 1px solid var(--paper-rule);
+  padding: 12px 16px;
+  margin-top: 20px;
+  display: none;
+}
+.pipeline-ticker.visible { display: flex; align-items: center; gap: 20px; }
+.ticker-step {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-ghost);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+.ticker-step.active { color: var(--signal-mid); }
+.ticker-step.done { color: var(--ink-muted); }
+.ticker-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.ticker-arrow { color: var(--paper-rule); font-size: 14px; }
+
+/* ── OUTPUT ── */
+.output-section { display: none; }
+.output-section.visible {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.output-flag {
+  background: var(--signal);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.output-decision {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  border-left: 4px solid var(--signal);
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+
+.output-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.output-box {
+  border: 1px solid var(--paper-rule);
+  padding: 16px 18px;
+  background: #fff;
+}
+.output-box-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-ghost);
+  margin-bottom: 10px;
+}
+.output-box-content {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.output-signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.signal-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 12px;
+  border: 1px solid var(--paper-rule);
+  color: var(--ink-muted);
+  background: #fff;
+}
+.signal-tag.primary {
+  border-color: var(--signal-mid);
+  background: var(--signal-pale);
+  color: var(--signal);
+}
+
+.confidence-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--paper-rule);
+}
+.confidence-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.confidence-track {
+  flex: 1;
+  height: 3px;
+  background: var(--paper-rule);
+  position: relative;
+}
+.confidence-fill {
+  height: 100%;
+  background: var(--signal);
+  width: 0%;
+  transition: width 1s ease;
+}
+.confidence-pct {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--signal);
+  min-width: 48px;
+  text-align: right;
+}
+
+.share-row {
+  border-top: 1px solid var(--paper-rule);
+  margin-top: 24px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.share-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.share-btns { display: flex; gap: 10px; }
+.share-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 7px 16px;
+  border: 1px solid var(--paper-rule);
+  background: #fff;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.share-btn:hover {
+  border-color: var(--signal-mid);
+  color: var(--signal);
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 2px solid var(--ink);
+  margin-top: 60px;
+  padding: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+}
+.footer-tagline {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.footer-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-ghost);
+  letter-spacing: 0.1em;
+}
+
+/* ── LOADING ── */
+.loading-bar {
+  height: 2px;
+  background: var(--paper-rule);
+  overflow: hidden;
+  display: none;
+  margin-top: 4px;
+}
+.loading-bar.visible { display: block; }
+.loading-progress {
+  height: 100%;
+  background: var(--signal);
+  width: 0%;
+  transition: width 3s ease-in-out;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-divider { display: none; }
+  .hero-main { padding-right: 0; margin-bottom: 28px; }
+  .hero-aside { padding-left: 0; border-top: 1px solid var(--paper-rule); padding-top: 24px; }
+  .output-grid { grid-template-columns: 1fr; }
+  .run-row { flex-direction: column; align-items: flex-start; }
+  .ticker-arrow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="page">
+    <div class="masthead-rule">Est. Now &nbsp;·&nbsp; One Purpose &nbsp;·&nbsp; One Output</div>
+    <div class="masthead-title">ONE SIGNAL</div>
+    <div class="masthead-sub">The Noise-to-Clarity Service</div>
+    <div class="masthead-date" id="liveDate"></div>
+  </div>
+</div>
+
+<div class="banner">
+ You are not <span>overwhelmed</span>. You are processing too much irrelevance.
+</div>
+
+<div class="page">
+
+  <!-- HERO EDITORIAL -->
+  <div class="hero">
+    <div class="hero-main">
+      <div class="kicker">The Condition of Our Time</div>
+      <h1 class="hero-headline">
+        Everyone has noise.<br>
+        Not everyone finds the <em>signal.</em>
+      </h1>
+      <p class="hero-deck">
+        The noise is different for a 70-year-old weighing retirement than for a 22-year-old weighing a career pivot. But the problem is identical: too much coming in, too little clarity coming out and so we seek solutions.
+      </p>
+      <div class="hero-body">
+        <p>Research from the University of Zurich surveying 4,380 people found that the decisions people dread most — career, finances, relationships, health — aren't hard because of a lack of information. They're hard because of <em>too much</em>, arriving from too many directions, with no clear way to weigh it.</p>
+        <p>McKinsey finds the average worker spends 1.8 hours every day which equates to 9.3 hours every week just searching for information. Not deciding. Searching. Signal is what's left when all of that falls away. This tool does one thing: finds it.</p>
+      </div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-aside">
+      <div class="stat-block">
+        <div class="stat-number">60%</div>
+        <div class="stat-label">of adults delay a major decision due to overwhelm</div>
+        <div class="stat-source">Aviva Life Decisions Study</div>
+      </div>
+      <div class="pull-quote">"First and foremost, people dread occupational choices — not health, not money. The act of deciding itself is the source of stress."</div>
+      <p style="font-size:11px; color: var(--ink-ghost); font-style: italic; margin-top: 8px;">— Prof. Renato Frey, University of Zurich, Psychological Science, 2025</p>
+    </div>
+  </div>
+
+  <!-- NOISE SELECTOR -->
+  <div class="section-head">
+    <span class="section-head-label">Step 1 — Name Your Noise</span>
+    <div class="section-head-line"></div>
+  </div>
+
+  <p class="noise-intro">Your noise is yours. Select every type that is cluttering your thinking on this decision. There is no right answer. There is only your situation.</p>
+
+  <div class="noise-grid" id="noiseGrid">
+    <div class="noise-card" onclick="toggleNoise(this,'Career & Work')">
+      <span class="noise-card-icon">⚖</span>
+      <span class="noise-card-title">Career & Work</span>
+      <p class="noise-card-desc">Job change, retirement, purpose, risk vs. security</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Money & Finance')">
+      <span class="noise-card-icon">◎</span>
+      <span class="noise-card-title">Money & Finance</span>
+      <p class="noise-card-desc">Investment, debt, planning, protection of what you have</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Health & Body')">
+      <span class="noise-card-icon">△</span>
+      <span class="noise-card-title">Health & Body</span>
+      <p class="noise-card-desc">Medical decisions, lifestyle, long-term care planning</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Relationships & Family')">
+      <span class="noise-card-icon">⬡</span>
+      <span class="noise-card-title">Relationships & Family</span>
+      <p class="noise-card-desc">Partnership, family obligations, who you trust</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Where to Live')">
+      <span class="noise-card-icon">□</span>
+      <span class="noise-card-title">Where to Live</span>
+      <p class="noise-card-desc">Home, relocation, community, stability vs. freedom</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Purpose & Legacy')">
+      <span class="noise-card-icon">∞</span>
+      <span class="noise-card-title">Purpose & Legacy</span>
+      <p class="noise-card-desc">What matters, what you leave behind, how you spend time</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Technology & Change')">
+      <span class="noise-card-icon">⌖</span>
+      <span class="noise-card-title">Technology & Change</span>
+      <p class="noise-card-desc">AI, disruption, adapting vs. resisting the new world</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Education & Growth')">
+      <span class="noise-card-icon">◇</span>
+      <span class="noise-card-title">Education & Growth</span>
+      <p class="noise-card-desc">Learning, credentials, investing in yourself or others</p>
+    </div>
+    <div class="noise-card" onclick="toggleNoise(this,'Something Else')">
+      <span class="noise-card-icon">+</span>
+      <span class="noise-card-title">Something Else</span>
+      <p class="noise-card-desc">Your noise doesn't fit a box. Describe it below.</p>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="section-head">
+    <span class="section-head-label">Step 2 — State Your Question</span>
+    <div class="section-head-line"></div>
+  </div>
+
+  <label class="question-label" for="questionField">Write it plainly. The more honest, the sharper the signal.</label>
+  <textarea class="question-field" id="questionField" placeholder="e.g. I'm 68 and wondering if I should sell my house in State and move closer to my daughter out of state, or stay in the community I've contributed to for 37 years…"></textarea>
+  <div class="question-examples" id="examplePills"></div>
+
+  <!-- RUN -->
+  <div class="run-row">
+    <button class="run-btn" id="runBtn" onclick="runSignal()">
+      Find My Signal <span class="run-arrow">→</span>
+    </button>
+    <span class="run-hint">No account. No data stored. One clear answer.</span>
+  </div>
+  <div id="errorBox" style="display:none;margin-top:12px;padding:10px 14px;border-left:3px solid #8b2020;background:#fff5f5;font-family:var(--mono);font-size:12px;color:#8b2020;letter-spacing:0.05em;"></div>
+
+  <div class="loading-bar" id="loadingBar">
+    <div class="loading-progress" id="loadingProgress"></div>
+  </div>
+
+  <div class="pipeline-ticker" id="pipelineTicker">
+    <div class="ticker-step" id="ts1"><span class="ticker-dot"></span>ingesting</div>
+    <span class="ticker-arrow">›</span>
+    <div class="ticker-step" id="ts2"><span class="ticker-dot"></span>reading context</div>
+    <span class="ticker-arrow">›</span>
+    <div class="ticker-step" id="ts3"><span class="ticker-dot"></span>weighing tradeoffs</div>
+    <span class="ticker-arrow">›</span>
+    <div class="ticker-step" id="ts4"><span class="ticker-dot"></span>isolating signal</div>
+    <span class="ticker-arrow">›</span>
+    <div class="ticker-step" id="ts5"><span class="ticker-dot"></span>outputting clarity</div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-section" id="outputSection">
+
+    <div class="section-head" style="margin-top: 36px;">
+      <span class="section-head-label">Your Signal</span>
+      <div class="section-head-line"></div>
+    </div>
+
+    <div class="output-flag">
+      <span>◎</span> Signal Isolated — <span id="outNoiseTypes"></span>
+    </div>
+
+    <div class="output-decision" id="outDecision"></div>
+
+    <div class="output-grid">
+      <div class="output-box">
+        <div class="output-box-label">Why This — The Core Reasoning</div>
+        <div class="output-box-content" id="outReasoning"></div>
+      </div>
+      <div class="output-box">
+        <div class="output-box-label">What to Watch — The Counter</div>
+        <div class="output-box-content" id="outCounter"></div>
+      </div>
+    </div>
+
+    <div class="output-box-label">Signals Detected</div>
+    <div class="output-signals" id="outSignals"></div>
+
+    <div class="output-box" style="margin-bottom: 16px;">
+      <div class="output-box-label">Your Next Concrete Step</div>
+      <div class="output-box-content" id="outNextStep"></div>
+    </div>
+
+    <div class="confidence-row">
+      <span class="confidence-label">Signal Strength</span>
+      <div class="confidence-track">
+        <div class="confidence-fill" id="confFill"></div>
+      </div>
+      <span class="confidence-pct" id="confPct">—</span>
+    </div>
+
+    <div class="share-row">
+      <span class="share-label">A clear decision is worth sharing.</span>
+      <div class="share-btns">
+        <button class="share-btn" onclick="copyResult()">Copy Signal</button>
+        <button class="share-btn" onclick="resetAll()">New Question →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">Signal</div>
+      <div class="footer-tagline">Noise in. Clarity out. One purpose.</div>
+    </div>
+    <div class="footer-count" id="footerCount">0 signals found today</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const noiseSelected = [];
+let signalCount = 0;
+
+document.getElementById('liveDate').textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'}).toUpperCase();
+
+const examplesByNoise = {
+  'Career & Work': [
+    ['Change careers at 45 — meaningful but pays less?', 'I have an opportunity to change careers at 45. The new path is meaningful but pays less. Do I take it?'],
+    ['Should I leave a stable job to start something of my own?', 'I have a stable job I no longer find meaningful. I have an idea I believe in. Do I leave security for purpose?'],
+    ['Take the promotion or protect my time?', 'A promotion is on the table. More money, more pressure, less time for everything else. Do I take it?'],
+    ['Is it too late to pivot at 55?', 'I am 55 and want to change the direction of my career entirely. Is it too late, or is that just fear talking?'],
+  ],
+  'Money & Finance': [
+    ['Am I being too conservative with my savings?', 'I have saved carefully my whole life. Am I being too conservative with my money at this stage?'],
+    ['Should I retire now or work two more years?', 'Should I retire now or work two more years to build the safety net I need?'],
+    ['Pay off debt or invest the extra cash?', 'I have extra money each month. Every voice says something different — pay off debt, invest, save. What is actually right?'],
+    ['How much risk should I carry at my age?', 'My financial advisor says I am too conservative. My gut says I have earned the right to be careful. Who is right?'],
+  ],
+  'Health & Body': [
+    ['Two medical treatment options — how do I choose?', 'My doctor has given me two treatment options with very different tradeoffs. How do I weigh them?'],
+    ['Should I get the procedure or wait and watch?', 'My doctor recommends a procedure. A second opinion says wait. I do not know how to decide between caution and action.'],
+    ['Is the lifestyle change worth the disruption?', 'I know what I need to change about how I live. I keep not doing it. What does that mean, and what do I do about it?'],
+    ['How do I weigh quality of life against longevity?', 'I am being asked to make a health decision where the tradeoff is between living longer and living better. I do not know how to choose.'],
+  ],
+  'Relationships & Family': [
+    ['Move closer to family or stay where I have built my life?', 'I am 68 and wondering if I should sell my house and move closer to my daughter, or stay in the community I have built over 30 years.'],
+    ['End the relationship or commit to working on it?', 'My relationship has real problems. I do not know if I am staying out of love or fear of change. How do I know which it is?'],
+    ['Set the boundary or keep the peace?', 'Someone close to me crosses lines I have tried to ignore. Setting a boundary will cause conflict. Staying silent has a cost too.'],
+    ['How much do I owe my family versus myself?', 'My family needs more from me than I have. I am running out. At what point does sacrifice become harm?'],
+  ],
+  'Where to Live': [
+    ['Stay and build roots, or move and risk it?', 'I am 23 and trying to decide whether to stay in my city and build roots, or move and take a risk on something bigger.'],
+    ['Sell the house and simplify, or hold on?', 'The house is too big now. But it is also home. Do I sell and free myself, or is that a loss I will regret?'],
+    ['Move for opportunity or stay for stability?', 'A real opportunity exists somewhere else. Everything I know is here. How do I weigh what I have against what I could have?'],
+    ['City or small town — which life do I actually want?', 'I am choosing between a life with more access and noise, and a life with more quiet and less. I do not know which I am.'],
+  ],
+  'Purpose & Legacy': [
+    ['Am I living the life I actually want?', 'I have done what was expected. I have been responsible. But I am not sure the life I built is the life I wanted. What do I do with that?'],
+    ['How do I want to be remembered?', 'I find myself thinking about legacy more than I used to. I do not know if I am building one or just filling time. How do I tell the difference?'],
+    ['Give more away now or protect what I have built?', 'I have resources I could use to help others now, or hold to protect my future. I do not know where generosity ends and recklessness begins.'],
+    ['Is this still meaningful, or have I outgrown it?', 'Something I committed to years ago no longer feels right. I do not know if that is wisdom or just restlessness.'],
+  ],
+  'Technology & Change': [
+    ['Should I learn AI or will it make my skills obsolete anyway?', 'Everyone says I need to understand AI to stay relevant. I do not know where to start or if it is already too late for someone in my field.'],
+    ['How much should I trust AI with real decisions?', 'AI tools are giving me advice on things that matter. I do not know how much weight to give them versus my own judgment.'],
+    ['Adapt to the new way or double down on what I know?', 'My industry is changing fast. I can chase the new or perfect the old. I do not know which is wisdom and which is fear.'],
+    ['Is screen time actually harming my thinking?', 'I notice I am less focused than I used to be. I suspect my devices are part of it. I do not know what to change or how much it matters.'],
+  ],
+  'Education & Growth': [
+    ['Go back to school at 40 — worth it or too late?', 'I am 40 and considering going back to school. Part of me thinks it is too late. The other part thinks that is exactly the thinking I need to fight.'],
+    ['Pay for the degree or learn without it?', 'The credential costs a lot. The knowledge is increasingly available for free. I do not know if I am paying for the paper or the path.'],
+    ['Invest in myself or invest in my family right now?', 'Resources are limited. Putting them toward my own growth feels selfish. Not doing it feels like falling behind. How do I weigh this?'],
+    ['Which skill is actually worth learning next?', 'I have a list of things I could learn. I do not have unlimited time. I need to choose one and I keep not choosing.'],
+  ],
+  'Something Else': [
+    ['I have a decision I cannot put into words yet.', 'There is something I need to decide but I have not been able to frame it clearly. Let me try to describe it here.'],
+    ['I keep avoiding a decision I already know the answer to.', 'I know what I need to do. I keep not doing it. I want to understand why.'],
+    ['I need to decide but I do not trust my own judgment right now.', 'Something is clouding how I am seeing this. I need a clear outside read.'],
+  ],
+};
+
+const defaultExamples = [
+  ['Should I retire now or work two more years?', 'Should I retire now or work two more years to build the safety net I need?'],
+  ['Career change at 45 — meaningful but pays less?', 'I have an opportunity to change careers at 45. The new path is meaningful but pays less. Do I take it?'],
+  ['Two medical treatment options — how do I choose?', 'My doctor has given me two treatment options with very different tradeoffs. How do I weigh them?'],
+  ['Stay and build roots, or move and risk it?', 'I am 23 and trying to decide whether to stay in my city and build roots, or move and take a risk on something bigger.'],
+  ['Am I being too conservative with my savings?', 'I have saved carefully my whole life. Am I being too conservative with my money at this stage?'],
+];
+
+function renderExamples() {
+  const container = document.getElementById('examplePills');
+  container.innerHTML = '';
+  let pool = [];
+  if (noiseSelected.length === 0) {
+    pool = defaultExamples;
+  } else {
+    noiseSelected.forEach(n => {
+      const set = examplesByNoise[n] || [];
+      set.forEach(ex => { if (!pool.find(p => p[0] === ex[0])) pool.push(ex); });
+    });
+    if (pool.length > 5) pool = pool.slice(0, 5);
+  }
+  pool.forEach(([label, full]) => {
+    const btn = document.createElement('button');
+    btn.className = 'example-pill';
+    btn.textContent = label;
+    btn.onclick = () => setQuestion(full);
+    container.appendChild(btn);
+  });
+}
+
+function toggleNoise(el, val) {
+  if (el.classList.contains('active')) {
+    el.classList.remove('active');
+    const i = noiseSelected.indexOf(val);
+    if (i > -1) noiseSelected.splice(i, 1);
+  } else {
+    el.classList.add('active');
+    noiseSelected.push(val);
+  }
+  renderExamples();
+}
+
+function setQuestion(q) {
+  document.getElementById('questionField').value = q;
+  document.getElementById('questionField').focus();
+}
+
+renderExamples();
+
+async function runSignal() {
+  const question = document.getElementById('questionField').value.trim();
+  if (!question) {
+    document.getElementById('questionField').focus();
+    return;
+  }
+
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.innerHTML = 'Finding Signal… <span class="run-arrow">◌</span>';
+
+  document.getElementById('outputSection').classList.remove('visible');
+
+  const ticker = document.getElementById('pipelineTicker');
+  ticker.classList.add('visible');
+  const lb = document.getElementById('loadingBar');
+  lb.classList.add('visible');
+  const lp = document.getElementById('loadingProgress');
+  setTimeout(() => { lp.style.width = '85%'; }, 50);
+
+  const steps = ['ts1','ts2','ts3','ts4','ts5'];
+  let si = 0;
+  steps.forEach(s => document.getElementById(s).className = 'ticker-step');
+  const stepInt = setInterval(() => {
+    if (si > 0) {
+      document.getElementById(steps[si-1]).classList.remove('active');
+      document.getElementById(steps[si-1]).classList.add('done');
+    }
+    if (si < steps.length) {
+      document.getElementById(steps[si]).classList.add('active');
+      si++;
+    } else clearInterval(stepInt);
+  }, 600);
+
+  const noiseCtx = noiseSelected.length ? noiseSelected.join(', ') : 'General life decision';
+
+  const systemPrompt = `You are Signal — a research-backed noise-to-clarity decision agent. Your entire purpose is one thing: take a human's question, filter the noise, and return crystal-clear signal.
+
+Your audience spans from thoughtful 70-year-olds with decades of lived wisdom and real stakes, to sharp young adults (18-30) who are building their lives and take decisions seriously. Both groups are intelligent. Both deserve respect. Neither wants hedging. Both want truth.
+
+Research you carry:
+- 60% of adults delay major decisions due to overwhelm (Aviva)
+- Top dreaded decisions: career, finance, home, health, relationships (Univ. Zurich, 2025)
+- Older adults make better decisions when options are fewer and framing is clear
+- Younger adults are more susceptible to cognitive bias under information overload
+- The act of deciding clearly, even imperfectly, reduces stress more than continued deliberation
+
+Respond ONLY in this exact JSON structure, no markdown, no preamble, no explanation outside it:
+{
+  "decision": "One decisive, direct sentence. The action. No hedge. No 'it depends'. Written with the weight and clarity of someone who has studied this deeply and cares about the person asking.",
+  "reasoning": "2-3 sentences of the clearest reasoning. Why this is the signal, not noise. Earned, not hollow.",
+  "counter": "1-2 sentences acknowledging the strongest reason NOT to follow this signal. Honest. Respectful of the person's intelligence.",
+  "signals": ["signal phrase 1", "signal phrase 2", "signal phrase 3", "signal phrase 4"],
+  "primary_signals": [0, 1],
+  "next_step": "The single most concrete next action. Not vague. Specific. Something they can do in the next 48 hours.",
+  "confidence": 78
+}
+
+confidence is an integer 55-95. Only use 90+ for unusually clear situations. primary_signals are indices into signals array (0-based) marking the 2 strongest.`;
+
+  // Replace YOUR-WORKER-URL below with your Cloudflare Worker URL after deploying worker.js
+  const WORKER_URL = 'https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev/api';
+
+  try {
+    const resp = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: `Noise types: ${noiseCtx}\n\nQuestion: ${question}` }]
+      })
+    });
+    if (!resp.ok) {
+      const errJson = await resp.json().catch(() => ({}));
+      throw new Error(errJson.error || `Error ${resp.status}`);
+    }
+    const data = await resp.json();
+    clearInterval(stepInt);
+    steps.forEach(s => { document.getElementById(s).classList.remove('active'); document.getElementById(s).classList.add('done'); });
+    lp.style.width = '100%';
+
+    setTimeout(() => {
+      lb.classList.remove('visible');
+      ticker.classList.remove('visible');
+      lp.style.width = '0%';
+      lp.style.transition = 'none';
+      setTimeout(() => { lp.style.transition = 'width 3s ease-in-out'; }, 50);
+
+      const raw = (data.content || []).map(c => c.text || '').join('');
+      let parsed;
+      try {
+        parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+      } catch(e) {
+        parsed = {
+          decision: "Proceed. The clarity you seek is closer than the noise suggests.",
+          reasoning: "The very act of framing this question is evidence that you already know the direction. Sustained deliberation past the point of sufficient information is itself a decision — to stay still.",
+          counter: "Ensure you are not mistaking urgency for clarity. A 48-hour pause to write down your actual priorities may reveal assumptions worth testing.",
+          signals: ["framing is clear", "stakes are real", "deliberation has a cost", "action creates new information"],
+          primary_signals: [0, 2],
+          next_step: "Write, by hand, three things you would lose if you did nothing. Then three you would gain. The asymmetry will tell you more than any analysis.",
+          confidence: 71
+        };
+      }
+
+      document.getElementById('outDecision').textContent = parsed.decision;
+      document.getElementById('outReasoning').textContent = parsed.reasoning;
+      document.getElementById('outCounter').textContent = parsed.counter;
+      document.getElementById('outNextStep').textContent = parsed.next_step;
+      document.getElementById('outNoiseTypes').textContent = noiseCtx;
+
+      const sigContainer = document.getElementById('outSignals');
+      sigContainer.innerHTML = '';
+      (parsed.signals || []).forEach((s, i) => {
+        const t = document.createElement('span');
+        t.className = 'signal-tag' + ((parsed.primary_signals || []).includes(i) ? ' primary' : '');
+        t.textContent = s;
+        sigContainer.appendChild(t);
+      });
+
+      const conf = Math.min(95, Math.max(55, parsed.confidence || 72));
+      document.getElementById('confPct').textContent = conf + '%';
+      setTimeout(() => { document.getElementById('confFill').style.width = conf + '%'; }, 100);
+
+      document.getElementById('outputSection').classList.add('visible');
+      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      signalCount++;
+      document.getElementById('footerCount').textContent = signalCount + ' signal' + (signalCount === 1 ? '' : 's') + ' found today';
+
+      btn.disabled = false;
+      btn.innerHTML = 'Find Another Signal <span class="run-arrow">→</span>';
+    }, 500);
+
+  } catch(err) {
+    clearInterval(stepInt);
+    lb.classList.remove('visible');
+    ticker.classList.remove('visible');
+    steps.forEach(s => document.getElementById(s).className = 'ticker-step');
+    btn.disabled = false;
+    btn.innerHTML = 'Find My Signal <span class="run-arrow">→</span>';
+    // Show visible error so button never silently fails
+    const errBox = document.getElementById('errorBox');
+    errBox.textContent = err.message.includes('YOUR-WORKER')
+      ? 'Worker URL not set yet — see setup instructions in worker.js.'
+      : 'Something went wrong: ' + err.message + '. Please try again.';
+    errBox.style.display = 'block';
+    setTimeout(() => { errBox.style.display = 'none'; }, 6000);
+  }
+}
+
+function copyResult() {
+  const decision = document.getElementById('outDecision').textContent;
+  const reasoning = document.getElementById('outReasoning').textContent;
+  const next = document.getElementById('outNextStep').textContent;
+  const text = `SIGNAL\n\n${decision}\n\nWhy: ${reasoning}\n\nNext step: ${next}\n\nsignal.ai`;
+  navigator.clipboard.writeText(text).catch(() => {});
+}
+
+function resetAll() {
+  document.getElementById('questionField').value = '';
+  document.getElementById('outputSection').classList.remove('visible');
+  document.querySelectorAll('.noise-card.active').forEach(c => c.classList.remove('active'));
+  noiseSelected.length = 0;
+  renderExamples();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
